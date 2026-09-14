@@ -1,0 +1,46 @@
+# .github/workflows/build-windows.yml
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # позволяет запускать вручную из вкладки Actions
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      # 1. Клонируем репозиторий
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем Python
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Обновляем pip
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      # 4. Устанавливаем зависимости
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          if (Test-Path requirements.txt) { pip install -r requirements.txt }
+
+      # 5. Собираем .exe с иконкой
+      - name: Build EXE with PyInstaller
+        run: pyinstaller calculator.spec
+
+      # 6. Загружаем артефакт
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculator-windows
+          path: dist/calculator.exe
+          if-no-files-found: error
