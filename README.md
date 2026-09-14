@@ -1,4 +1,4 @@
-🔗 **[🌐 Открыть калькулятор](https://gjigji-scam.github.io/calculato/)**
+🔗 **[🌐 Открыть калькулятор](https://GjiGji-scam.github.io/Calculator/)**
 
 
 # 🧮 AI Calculator
